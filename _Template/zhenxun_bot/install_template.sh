@@ -354,7 +354,8 @@ Uninstall_All() {
 }
 
 Install_zhenxun_bot() {
-    check_root
+    # check_root
+    sudo pwd > /dev/null
     [[ -e "${WORK_DIR}/zhenxun_bot/bot.py" ]] && echo -e "${Error} 检测到 zhenxun_bot 已安装 !" && exit 1
     startTime=`date +%s`
     Set_ghproxy
