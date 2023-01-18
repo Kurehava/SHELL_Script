@@ -177,7 +177,7 @@ fi
 
 # change def shell
 echo -e "$info change sh to ZSH."
-sudo chsh -s /bin/zsh
+sudo -k chsh -s /bin/zsh "$USER"
 while :;do
     echo -e "$info Now we need root."
     echo -e "$info Do you want to automatically reboot now or manually reboot later?[N/L] \c"
