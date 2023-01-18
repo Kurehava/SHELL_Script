@@ -6,8 +6,11 @@
 # 一键安装脚本
   bash <(curl -s -L https://raw.githubusercontent.com/zhenxun-org/zhenxun_bot-deploy/master/install.sh)
 
-# GIRHUB 主页
+# zhenxun_BOT GIRHUB 主页
   https://github.com/HibiKier/zhenxun_bot
 
-# 文档 主页
+# zhenxun_BOT 文档 主页
   https://hibikier.github.io/zhenxun_bot/
+
+# zhenxun_BOT 配置文件以及管理脚本
+  https://github.com/Kurehava/memo/tree/main/%E7%BB%AA%E5%B1%B1%E7%9C%9F%E5%AF%BBbot
