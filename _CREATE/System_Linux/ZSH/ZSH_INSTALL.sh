@@ -104,7 +104,7 @@ omz_themes="$omz_home/themes"
 omz_plugins="$omz_home/plugins"
 
 # get kurehava zsh theme
-`$download_command "https://raw.githubusercontent.com/Kurehava/SHELL_Script/main/ZSH/Sizuku_double_line.zsh-theme" > "$omz_themes/kurehava_conda.zsh-theme"`
+`$download_command "https://raw.githubusercontent.com/Kurehava/SHELL_Script/main/_CREATE/System_Linux/ZSH/Sizuku_double_line.zsh-theme" > "$omz_themes/kurehava_conda.zsh-theme"`
 
 # change theme to kurehava conda theme
 $(sed -i s:robbyrussell:kurehava_conda:g "$user_root/.zshrc")
