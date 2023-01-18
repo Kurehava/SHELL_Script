@@ -16,11 +16,11 @@
   
   then
   
-    2.```sed -i 's:WORK_DIR="/home":WORK_DIR="$(echo ~)/BOT":g' "$(pwd)/zhenxun_install.sh"```
+    2. ```sed -i 's:WORK_DIR="/home":WORK_DIR="$(echo ~)/BOT":g' "$(pwd)/zhenxun_install.sh"```
   
-    3.```sed -i 's:TMP_DIR="$(mktemp -d)":TMP_DIR="$(mkdir -p $WORK_DIR/TEMP_DIR_NOT_DEL)":g' "$(pwd)/zhenxun_install.sh"```
+    3. ```sed -i 's:TMP_DIR="$(mktemp -d)":TMP_DIR="$(mkdir -p $WORK_DIR/TEMP_DIR_NOT_DEL)":g' "$(pwd)/zhenxun_install.sh"```
   
-    4.```bash "$(pwd)/zhenxun_install.sh"```
+    4. ```bash "$(pwd)/zhenxun_install.sh"```
 
 # zhenxun_BOT GIRHUB 主页
   https://github.com/HibiKier/zhenxun_bot
