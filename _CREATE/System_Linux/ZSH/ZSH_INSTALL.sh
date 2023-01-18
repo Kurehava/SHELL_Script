@@ -78,7 +78,7 @@ else
         echo -e "$warn can not find download tools, do you want install?[Y/N]"
         read selects
         case $select in
-            Y|y) $(sudo $pkg_manage install -y curl wget);break;;
+            Y|y) $(sudo $pkg_manage install -y curl wget);download_command="wget";break;;
             N|n) echo -e "$erro can not download oh-my-zsh, exit." && exit 1;;
             *) echo -e "$warn input $select is illegal, plz reinput.";;
         esac
