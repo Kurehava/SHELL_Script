@@ -8,19 +8,19 @@
   
   注：建议不要直接使用一键安装脚本 先下载到本地修改脚本后再进行安装 否则他会直接安装到```/home```目录下
   
-    1) ```wget https://raw.githubusercontent.com/zhenxun-org/zhenxun_bot-deploy/master/install.sh -O "$(pwd)/zhenxun_install.sh"```
+    1. ```wget https://raw.githubusercontent.com/zhenxun-org/zhenxun_bot-deploy/master/install.sh -O "$(pwd)/zhenxun_install.sh"```
   
   or
   
-    ```curl https://raw.githubusercontent.com/zhenxun-org/zhenxun_bot-deploy/master/install.sh -o "$(pwd)/zhenxun_install.sh"```
+    1. ```curl https://raw.githubusercontent.com/zhenxun-org/zhenxun_bot-deploy/master/install.sh -o "$(pwd)/zhenxun_install.sh"```
   
   then
   
-    2. ```sed -i 's:WORK_DIR="/home":WORK_DIR="$(echo ~)/BOT":g' "$(pwd)/zhenxun_install.sh"```
+    1. ```sed -i 's:WORK_DIR="/home":WORK_DIR="$(echo ~)/BOT":g' "$(pwd)/zhenxun_install.sh"```
   
-    3. ```sed -i 's:TMP_DIR="$(mktemp -d)":TMP_DIR="$(mkdir -p $WORK_DIR/TEMP_DIR_NOT_DEL)":g' "$(pwd)/zhenxun_install.sh"```
+    1. ```sed -i 's:TMP_DIR="$(mktemp -d)":TMP_DIR="$(mkdir -p $WORK_DIR/TEMP_DIR_NOT_DEL)":g' "$(pwd)/zhenxun_install.sh"```
   
-    4. ```bash "$(pwd)/zhenxun_install.sh"```
+    1. ```bash "$(pwd)/zhenxun_install.sh"```
 
 # zhenxun_BOT GIRHUB 主页
   https://github.com/HibiKier/zhenxun_bot
