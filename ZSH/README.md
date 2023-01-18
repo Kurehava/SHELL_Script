@@ -10,4 +10,8 @@
   
  1.```wget "https://raw.githubusercontent.com/Kurehava/SHELL_Script/main/ZSH/Sizuku_double_line.zsh-theme" -O "$(echo ~)/.oh-my-zsh/themes/Sizuku_double_line.zsh-theme"```
  
+ or 
+ 
+ 1.```curl "https://raw.githubusercontent.com/Kurehava/SHELL_Script/main/ZSH/Sizuku_double_line.zsh-theme" -o "$(echo ~)/.oh-my-zsh/themes/Sizuku_double_line.zsh-theme"```
+ 
  2.```sed -i 's:ZSH_THEME="robbyrussell":ZSH_THEME="Sizuku_double_line":g' "$(echo ~)/.zshrc"```
