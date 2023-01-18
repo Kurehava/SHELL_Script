@@ -2,7 +2,7 @@
   
   这个是ZSH自动安装脚本, 可以使用命令一键安装
   
-  ```bash <(curl -s -L "https://raw.githubusercontent.com/Kurehava/SHELL_Script/main/ZSH/ZSH_INSTALL.sh")```
+  ```bash <(curl -s -L "https://raw.githubusercontent.com/Kurehava/SHELL_Script/main/_CREATE/System_Linux/ZSH/ZSH_INSTALL.sh")```
 
 # Sizuku_double_line.zsh-theme
 
