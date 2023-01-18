@@ -3,7 +3,7 @@
   
   2.```TMP_DIR="$(mkdir -p $WORK_DIR/TEMP_DIR_NOT_DEL)" ```
   
-  3.注释掉Install_zhenxun_bot函数的 ```check_root``` 改为 ```sudo pwd > /dev/null```
+  3.注释掉 ```Install_zhenxun_bot()``` 函数的 ```check_root``` 改为 ```sudo pwd > /dev/null```
   
 # 一键安装脚本
   ```bash <(curl -s -L https://raw.githubusercontent.com/zhenxun-org/zhenxun_bot-deploy/master/install.sh)```
