@@ -8,10 +8,10 @@
   
   启动或重启ssh服务
   
-   启动
+  >启动
+  
+    ```sudo /etc/init.d/ssh start```
 
-      ```sudo /etc/init.d/ssh start```
+  >重启
 
-   重启
-
-      ```sudo /etc/init.d/ssh restart```
+    ```sudo /etc/init.d/ssh restart```
