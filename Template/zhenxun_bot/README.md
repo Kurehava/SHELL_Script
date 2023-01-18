@@ -31,5 +31,5 @@
 # zhenxun_BOT 一键安装脚本主页
   https://github.com/zhenxun-org/zhenxun_bot-deploy
 
-# zhenxun_BOT 配置文件以及管理脚本
+# zhenxun_BOT 配置文件以及BOT管理脚本
   https://github.com/Kurehava/memo/tree/main/%E7%BB%AA%E5%B1%B1%E7%9C%9F%E5%AF%BBbot
