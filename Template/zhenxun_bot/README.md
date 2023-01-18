@@ -15,7 +15,9 @@
   ```curl https://raw.githubusercontent.com/zhenxun-org/zhenxun_bot-deploy/master/install.sh -o "$(pwd)/zhenxun_install.sh"```
   
   ```sed -i 's:WORK_DIR="/home":WORK_DIR="$(echo ~)/BOT":g' "$(pwd)/zhenxun_install.sh"```
+  
   ```sed -i 's:TMP_DIR="$(mktemp -d)":TMP_DIR="$(mkdir -p $WORK_DIR/TEMP_DIR_NOT_DEL)":g' "$(pwd)/zhenxun_install.sh"```
+  
   ```bash "$(pwd)/zhenxun_install.sh"```
 
 # zhenxun_BOT GIRHUB 主页
