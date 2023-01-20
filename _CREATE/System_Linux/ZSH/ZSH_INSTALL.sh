@@ -90,7 +90,7 @@ if [ ! -d "$user_root/.oh-my-zsh" ];then
     echo -e "$info Install: oh-my-zsh"
     echo -e "N\n" | sh -c "$(wget https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)"
     # chk install success or fail
-    if [ "$($?)" != "0" ];then
+    if [ ! -e "$user_root/.oh-my-zsh" ];then
         echo -e "$erro Install oh-my-zsh is failed. exit."
         exit 1
     fi
