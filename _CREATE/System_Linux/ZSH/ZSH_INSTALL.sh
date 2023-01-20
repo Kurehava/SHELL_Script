@@ -10,9 +10,9 @@ sudo pwd > /dev/null
 system_info=`uname -a`
 if [[ "$system_info" =~ "WSL" ]];then
     echo -e "$info WSL environment is detected."
-    $WSL_ENV="WSL_enable"
+    WSL_ENV="WSL_enable"
 else
-    $WSL_ENV="WSL_disable"
+    WSL_ENV="WSL_disable"
 fi
 
 if [ -f /etc/os-release ];then
