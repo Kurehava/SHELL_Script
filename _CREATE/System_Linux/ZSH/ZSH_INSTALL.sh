@@ -178,6 +178,7 @@ if [ "$chk_wget" != "" ] && [ "$download_command" = "None" ];then
         echo -e "$info $root_sudo$pkg_manage install curl -y"
         echo -e "$info and rerun this scirpt."
         echo -e "$erro exit."
+        exit 1
     fi
 fi
 
