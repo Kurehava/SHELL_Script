@@ -13,7 +13,7 @@ if [ "$EUID" = "0" ];then
 else
     ROOT_CHK=false
 fi
-root_sudo="sudo "
+root_sudo="sudo"
 
 # chk system platform
 system_info=`uname -a`
@@ -64,11 +64,11 @@ function chk_depend(){
 function install_dependencies(){
     # depend
     i_depend="$1"
-    $root_sudo$pkg_manage install $i_depend -y
+    $root_sudo $pkg_manage install $i_depend -y
     if [ "$?" != "0" ];then
         echo -e "$erro Failed to install critical dependencies $i_depend."
         echo -e "$info You can try to install it manually using the following command."
-        echo -e "$info $root_sudo$pkg_manage install $i_depend -y"
+        echo -e "$info $root_sudo $pkg_manage install $i_depend -y"
         echo -e "$info and rerun this scirpt."
         echo -e "$erro exit."
         exit 1
@@ -119,9 +119,7 @@ for d in ${dependencies[@]};do
 done
 
 # get sudo
-if [ "$root_sudo" = "sudo " ];then
-    sudo pwd > /dev/null
-fi
+$root_sudo pwd > /dev/null
 
 # chk zsh shell installed
 function shell_check(){
@@ -142,7 +140,7 @@ if [ $have_zsh = "no" ];then
         echo -e "$warn can not found zsh, do you want install zsh?[Y/N] \c"
         read zsh_install
         case $zsh_install in
-            Y|y) echo -e "$info + $root_sudo$pkg_manage install -y zsh";$root_sudo$pkg_manage install -y zsh;break;;
+            Y|y) echo -e "$info + $root_sudo $pkg_manage install -y zsh";$root_sudo $pkg_manage install -y zsh;break;;
             N|n) echo -e "$erro not zsh env. exit.";exit 1;;
             *) echo -e "$warn input $zsh_install illegal, plz reinput.";;
         esac
@@ -174,9 +172,9 @@ if [ "$chk_wget" != "" ] && [ "$download_command" = "None" ];then
     else
         echo -e "$erro Not found download tool.(curl or wget)"
         echo -e "$info You can try to install it manually using the following command."
-        echo -e "$info $root_sudo$pkg_manage install wget -y"
+        echo -e "$info $root_sudo $pkg_manage install wget -y"
         echo -e "$info or"
-        echo -e "$info $root_sudo$pkg_manage install curl -y"
+        echo -e "$info $root_sudo $pkg_manage install curl -y"
         echo -e "$info and rerun this scirpt."
         echo -e "$erro exit."
         exit 1
@@ -275,14 +273,93 @@ fi
 
 # change def shell
 echo -e "$info change sh to ZSH."
-chsh -s /bin/zsh "$(whoami)"
+$root_sudo chsh -s /bin/zsh "$(whoami)"
+if [ "$?" != "0" ];then
+    echo -e "$warn For unknown reasons, we cannot change zsh for you."
+    echo -e "$warn Please manually change zsh later to apply the changes."
+    echo -e "$info $root_sudo chsh -s /bin/zsh \"$(whoami)\""
+    echo -e "$warn script exit."
+    exit 1
+fi
 
-# apply zsh to the root user
-while :;do
-    echo -e "$info Do you want to apply zsh to the root user?[Y/N]"
-    read select_zru
-    case $select_zru in
-        Y|y) 
+# apply zsh to root
+if ! $ROOT_CHK;then
+    emergency_stop="standby"
+    function link_to_root(){
+        $root_sudo mkdir -p /root/zsh_backup_temp
+        if [ -d /root/.oh-my-zsh ];then
+            $root_sudo mv /root/.oh-my-zsh /root/zsh_backup_temp
+            back_ohmyzsh="/root/zsh_backup_temp/.oh-my-zsh"
+        fi
+        if [ -f /root/.zshrc ];then
+            $root_sudo mv /root/.zshrc /root/zsh_backup_temp
+            back_zshrc="/root/zsh_backup_temp/.zshrc"
+        fi
+        function rolling_back_errormsg(){
+            if [ "$?" != "0" ];then
+                emergency_stop="activate"
+                echo -e "$erro Roll back failed."
+                if [ "$back_ohmyzsh" != "" ] && [ "$back_zshrc" != "" ];then
+                    echo -e "$warn Please manually delete the .oh-my-zsh folder and the .zshrc configuration file (if it exists) in the root directory, then copy the backup files from the zsh_backup_temp directory to the root directory and delete the zsh_backup_temp directory."
+                elif [ "$back_ohmyzsh" != "" ];then
+                    echo -e "$warn Please manually delete the .oh-my-zsh folder(if it exists) in the root directory, then copy the backup files from the zsh_backup_temp directory to the root directory and delete the zsh_backup_temp directory."
+                elif [ "$back_zshrc" != "" ];then
+                    echo -e "$warn Please manually delete the .zshrc configuration file (if it exists) in the root directory, then copy the backup files from the zsh_backup_temp directory to the root directory and delete the zsh_backup_temp directory."
+                fi
+            fi
+        }
+        function rolling_back(){
+            operation_target="$1"
+            if [ "$?" != "0" ];then
+                echo -e "$warn Create soft link to root failed."
+                echo -e "$warn Roll back all changes."
+                $root_sudo rm -rf "/root/$operation_target"
+                if [ "$emergency_stop" = "activate" ];then
+                    return 1
+                fi
+                if [ "$back_ohmyzsh" != "" ];then
+                    $root_sudo mv $back_ohmyzsh "/root/$operation_target"
+                    rolling_back_errormsg
+                    if [ "$emergency_stop" = "activate" ];then
+                        return 1
+                    fi
+                fi
+                if [ "$back_ohmyzsh" != "" ];then
+                    $root_sudo mv $back_ohmyzsh "/root/$operation_target"
+                    rolling_back_errormsg
+                    if [ "$emergency_stop" = "activate" ];then
+                        return 1
+                    fi
+                fi
+            fi
+        }
+        $root_sudo ln -s $user_root/.oh-my-zsh /root/.oh-my-zsh
+        rolling_back ".oh-my-zsh"
+        if [ "$emergency_stop" = "activate" ];then
+            return 1
+        fi
+        $root_sudo ln -s $user_root/.zshrc /root/.zshrc
+        rolling_back ".zshrc"
+        if [ "$emergency_stop" = "activate" ];then
+            return 1
+        fi
+        $root_sudo chsh -s /bin/zsh "root"
+        if [ "$?" != "0" ];then
+            echo -e "$erro Switching root default shell to zsh failed, please switch manually."
+            echo -e "$info $root_sudo chsh -s /bin/zsh \"root\""
+            return 1
+        fi
+    }
+    while :;do
+        echo -e "Do you want to apply zsh to the root user?[Y/N]"
+        read select_azru
+        case $select_azru in
+            Y|y) link_to_root;break;;
+            N|n) break;;
+            *) echo -e "$warn input $select_azru illegal, plz reinput.";;
+        esac
+    done
+fi
 
 while :;do
     echo -e "$info Now we need root."
@@ -302,6 +379,7 @@ while :;do
                 echo -e "$warn For unknown reasons, we cannot reboot the environment for you."
                 echo -e "$warn Please manually restart your environment later to apply the changes."
                 echo -e "$warn script exit."
+                exit 1
              fi
              exit 0
              ;;
