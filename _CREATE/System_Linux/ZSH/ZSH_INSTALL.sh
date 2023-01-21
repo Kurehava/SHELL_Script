@@ -43,13 +43,13 @@ esac
 echo -e "$info Pkg_manager : $pkg_manage"
 
 # Installing dependencies
-dependencies=("sudo" "curl" "wget" "git")
+dependencies=("sudo" "curl" "wget" "git" "neofetch")
 
 function chk_depend(){
     c_depend="$1"
     # Check if it is already installed
     depend_check=$(which $c_depend)
-    # echo -e "$dbug get depend check info : $c_depend <$depend_check>"
+    echo -e "$dbug get depend check info : $c_depend <$depend_check>"
     if [ "$depend_check" != "" ];then
         if [[ ! "$depend_check" =~ "not found" ]];then
             status_c_d=true
@@ -97,13 +97,13 @@ fi
 
 for d in ${dependencies[@]};do
     chk_depend $d
-    # echo -e "$dbug get chk depend return : status_c_d <$status_c_d>"
+    echo -e "$dbug get chk depend return : status_c_d <$status_c_d>"
     echo -e "$info check $d ...\c"
-    if [ ! $status_c_d ];then
+    if ! $status_c_d;then
         echo ""
         echo -e "$warn Missing dependency on $d."
         echo -e "$warn Start trying to install."
-        `install_dependencies $d`
+        # `install_dependencies $d`
         if $status_I_d;then
             echo -e "$info $d install success."
             echo -e "$info script continue."
