@@ -43,7 +43,7 @@ esac
 echo -e "$info Pkg_manager : $pkg_manage"
 
 # Installing dependencies
-dependencies=("curl" "wget" "git" "neofetch")
+dependencies=("curl" "wget" "git")
 
 function chk_depend(){
     c_depend="$1"
@@ -64,9 +64,7 @@ function chk_depend(){
 function install_dependencies(){
     # depend
     i_depend="$1"
-    # echo "$root_sudo$pkg_manage install $i_depend -y"
     $root_sudo$pkg_manage install $i_depend -y
-    # read x
     if [ "$?" != "0" ];then
         echo -e "$erro Failed to install critical dependencies $i_depend."
         echo -e "$info You can try to install it manually using the following command."
@@ -123,7 +121,9 @@ done
 exit 1
 
 # get sudo
-sudo pwd > /dev/null
+if [ "$root_sudo" = "sudo " ];then
+    sudo pwd > /dev/null
+fi
 
 # chk zsh shell installed
 function shell_check(){
@@ -144,7 +144,7 @@ if [ $have_zsh = "no" ];then
         echo -e "$warn can not found zsh, do you want install zsh?[Y/N] \c"
         read zsh_install
         case $zsh_install in
-            Y|y) echo -e "$info + sudo $pkg_manage install -y zsh";sudo $pkg_manage install -y zsh;break;;
+            Y|y) echo -e "$info + $root_sudo$pkg_manage install -y zsh";$root_sudo$pkg_manage install -y zsh;break;;
             N|n) echo -e "$erro not zsh env. exit.";exit 1;;
             *) echo -e "$warn input $zsh_install illegal, plz reinput.";;
         esac
@@ -275,7 +275,12 @@ fi
 
 # change def shell
 echo -e "$info change sh to ZSH."
-sudo -k chsh -s /bin/zsh "$USER"
+if [ "$root_sudo" = "sudo " ];then
+    sudo -k chsh -s /bin/zsh "$USER"
+else
+    chsh -s /bin/zsh "$USER"
+fi
+
 while :;do
     echo -e "$info Now we need root."
     echo -e "$info Do you want to automatically reboot now or manually reboot later?[N/L] \c"
@@ -285,7 +290,12 @@ while :;do
              echo -e "$info Please remember to manually reboot later."
              exit 0
              ;;
-        N|n) sudo reboot
+        N|n) $(root_sudo)reboot
+             if [ "$?" != "0" ];then
+                echo -e "$warn For unknown reasons, we cannot reboot the environment for you."
+                echo -e "$warn Please manually restart your environment later to apply the changes."
+                echo -e "$warn script exit."
+             fi
              exit 0
              ;;
         *) echo -e "$warn input $select is illegal, plz reinput."
