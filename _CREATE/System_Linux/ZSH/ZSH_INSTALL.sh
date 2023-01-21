@@ -292,6 +292,8 @@ while :;do
              ;;
         N|n) if [ "$root_sudo" = "sudo " ];then
                 sudo reboot
+             else
+                reboot
              fi
              if [ "$?" != "0" ];then
                 echo -e "$warn For unknown reasons, we cannot reboot the environment for you."
