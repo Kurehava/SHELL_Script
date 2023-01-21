@@ -103,7 +103,7 @@ for d in ${dependencies[@]};do
         echo ""
         echo -e "$warn Missing dependency on $d."
         echo -e "$warn Start trying to install."
-        # `install_dependencies $d`
+        `install_dependencies $d`
         if $status_I_d;then
             echo -e "$info $d install success."
             echo -e "$info script continue."
