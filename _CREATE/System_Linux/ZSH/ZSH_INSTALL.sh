@@ -290,7 +290,9 @@ while :;do
              echo -e "$info Please remember to manually reboot later."
              exit 0
              ;;
-        N|n) $("$root_sudo"reboot)
+        N|n) if [ "$root_sudo" = "sudo " ];then
+                sudo reboot
+             fi
              if [ "$?" != "0" ];then
                 echo -e "$warn For unknown reasons, we cannot reboot the environment for you."
                 echo -e "$warn Please manually restart your environment later to apply the changes."
