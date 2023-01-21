@@ -71,6 +71,7 @@ function install_dependencies(){
         echo 0
     fi
 }
+
 chk_sudo=`chk_depend sudo`
 root_sudo="sudo "
 if [ ! $chk_sudo ] && [ ! $ROOT_CHK ];then
@@ -93,6 +94,8 @@ fi
 for d in ${dependencies[@]};do
     status_I_d=`chk_depend $d`
     if [ ! $status_I_d ];then
+        echo -e "$warn Missing dependency on $d."
+        echo -e "$warn Start trying to install."
         `install_dependencies $d`
     fi
 done
