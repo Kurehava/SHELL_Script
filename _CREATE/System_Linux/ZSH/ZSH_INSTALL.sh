@@ -8,9 +8,9 @@ user_root="$(echo ~)"
 
 # check root
 if [ "$EUID" = "0" ];then
-    ROOT_CHK=1
-else
     ROOT_CHK=0
+else
+    ROOT_CHK=1
 fi
 
 # chk system platform
