@@ -43,7 +43,7 @@ esac
 echo -e "$info Pkg_manager : $pkg_manage"
 
 # Installing dependencies
-dependencies=("sudo" "curl" "wget" "git" "neofetch")
+dependencies=("curl" "wget" "git" "neofetch")
 
 function chk_depend(){
     c_depend="$1"
@@ -80,7 +80,9 @@ function install_dependencies(){
 }
 
 chk_depend sudo
-if ! $status_c_d && ! $ROOT_CHK ;then
+if $status_c_d;then
+    echo -e "$info Detected sudo dependency."
+elif ! $status_c_d && ! $ROOT_CHK ;then
     echo -e "$warn WARNING:"
     echo -e "$warn The current environment does not have sudo installed and is not under the root user."
     echo -e "$warn For security reasons we will try to install the sudo command once."
@@ -95,8 +97,9 @@ if ! $status_c_d && ! $ROOT_CHK ;then
         echo -e "$info sudo install success."
         echo -e "$info script continue."
     fi
-elif $status_c_d;then
-    echo -e "$info Detected sudo dependency"
+elif ! $status_c_d && $ROOT_CHK;then
+    root_sudo=""
+    echo -e "$info User root does not require sudo."
 fi
 
 for d in ${dependencies[@]};do
