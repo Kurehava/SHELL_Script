@@ -118,8 +118,6 @@ for d in ${dependencies[@]};do
     fi
 done
 
-exit 1
-
 # get sudo
 if [ "$root_sudo" = "sudo " ];then
     sudo pwd > /dev/null
