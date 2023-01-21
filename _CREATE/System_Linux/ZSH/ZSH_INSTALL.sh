@@ -65,7 +65,7 @@ function install_dependencies(){
     # depend
     i_depend="$1"
     # echo "$root_sudo$pkg_manage install $i_depend -y"
-    `$root_sudo$pkg_manage install $i_depend -y`
+    $root_sudo$pkg_manage install $i_depend -y
     # read x
     if [ "$?" != "0" ];then
         echo -e "$erro Failed to install critical dependencies $i_depend."
@@ -87,7 +87,7 @@ elif ! $status_c_d && ! $ROOT_CHK ;then
     echo -e "$warn The current environment does not have sudo installed and is not under the root user."
     echo -e "$warn For security reasons we will try to install the sudo command once."
     echo -e "$info + $pkg_manage install sudo -y"
-    `$pkg_manage install sudo -y`
+    $pkg_manage install sudo -y
     if [ "$?" != "0" ];then
         echo -e "$erro sudo install failed."
         echo -e "$erro in due course the installation will not continue without permissions."
@@ -144,7 +144,7 @@ if [ $have_zsh = "no" ];then
         echo -e "$warn can not found zsh, do you want install zsh?[Y/N] \c"
         read zsh_install
         case $zsh_install in
-            Y|y) echo -e "$info + sudo $pkg_manage install -y zsh";`sudo $pkg_manage install -y zsh`;break;;
+            Y|y) echo -e "$info + sudo $pkg_manage install -y zsh";sudo $pkg_manage install -y zsh;break;;
             N|n) echo -e "$erro not zsh env. exit.";exit 1;;
             *) echo -e "$warn input $zsh_install illegal, plz reinput.";;
         esac
