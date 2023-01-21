@@ -66,7 +66,7 @@ fi
 
 # run script
 echo -e "$info Start install zhenxun_bot"
-echo -e "1\n" | bash "$zhenxun_script_path"
+bash "$zhenxun_script_path"
 
 rm -rf $temp_path
 
