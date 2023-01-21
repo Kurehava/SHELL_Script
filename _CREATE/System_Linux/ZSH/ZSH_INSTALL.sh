@@ -170,7 +170,7 @@ if [ "$chk_curl" != "" ];then
 if [ "$chk_wget" != "" ] && [ "$download_command" = "None" ];then
     if [[ ! $chk_wget =~ "not found" ]];then
         download_command="wget"
-    else [[ ! $chk_wget =~ "not found" ]];then
+    else
         echo -e "$erro Not found download tool.(curl or wget)"
         echo -e "$info You can try to install it manually using the following command."
         echo -e "$info $root_sudo$pkg_manage install wget -y"
