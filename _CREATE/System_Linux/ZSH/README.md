@@ -7,6 +7,8 @@
   可以用以下的网址获取短址
   
   ```https://bitly.com/```
+  
+  为多个用户安装zsh可以切换到对应用户下再次执行本脚本
 
 # Sizuku_double_line.zsh-theme
 
