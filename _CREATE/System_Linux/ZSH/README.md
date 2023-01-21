@@ -3,6 +3,10 @@
   这个是ZSH自动安装脚本, 可以使用命令一键安装
   
   ```bash <(curl -s -L "https://raw.githubusercontent.com/Kurehava/SHELL_Script/main/_CREATE/System_Linux/ZSH/ZSH_INSTALL.sh")```
+  
+  可以用以下的网址获取短址
+  
+  ```https://bitly.com/```
 
 # Sizuku_double_line.zsh-theme
 
