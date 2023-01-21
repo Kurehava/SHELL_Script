@@ -4,8 +4,12 @@ info="[\033[92mINFO\033[0m]"
 warn="[\033[93mWARN\033[0m]"
 user_root="$(echo ~)"
 
-# get sudo
-sudo pwd > /dev/null
+# check root
+if [ "$EUID" = "0" ];then
+    ROOT_CHK=1
+else
+    ROOT_CHK=0
+fi
 
 # chk system platform
 system_info=`uname -a`
@@ -33,6 +37,42 @@ case $os_plotform in
     *) pkg_manage="apt";;
 esac
 echo -e "$info Pkg_manager : $pkg_manage"
+
+# Installing dependencies
+dependencies=("sudo" "curl" "wget" "git")
+
+function chk_depend(){
+    c_depend="$1"
+    # Check if it is already installed
+    depend_check=$(which $depend)
+    if [ "$depend_check" != "" ];then
+        if [[ ! "$depend_check" =~ "not found" ]];then
+            echo 0
+        else
+            echo 1
+        fi
+    else
+        echo 1
+    fi
+}
+
+function install_dependencies(){
+    # depend
+    i_depend="$1"
+    `$root_sudo$pkg_manage install $i_depend -y`
+    if [ "$?" != "0" ];then
+        echo -e "$erro Failed to install critical dependencies $i_depend."
+        echo -e "$info You can try to install it manually using the following command."
+        echo -e "$info $root_sudo$pkg_manage install $i_depend -y"
+        echo -e "$info and rerun this scirpt."
+        echo -e "$erro exit."
+    else
+        echo 0
+    fi
+}
+
+# get sudo
+sudo pwd > /dev/null
 
 # chk zsh shell installed
 function shell_check(){
@@ -70,20 +110,26 @@ fi
 # chk download tools
 chk_curl="$(which curl)"
 chk_wget="$(which wget)"
-if [[ ! $chk_curl =~ "not found" ]];then
-    download_command="curl"
-elif [[ ! $chk_wget =~ "not found" ]];then
-    download_command="wget"
-else
-    while :;do
-        echo -e "$warn can not find download tools, do you want install?[Y/N]"
-        read selects
-        case $select in
-            Y|y) $(sudo $pkg_manage install -y curl wget);download_command="wget";break;;
-            N|n) echo -e "$erro can not download oh-my-zsh, exit." && exit 1;;
-            *) echo -e "$warn input $select is illegal, plz reinput.";;
-        esac
-    done
+
+if [ "$chk_curl" != "" ];then
+    if [[ ! $chk_curl =~ "not found" ]];then
+        download_command="curl"
+    else
+        download_command="None"
+    fi
+
+if [ "$chk_wget" != "" ] && [ "$download_command" = "None" ];then
+    if [[ ! $chk_wget =~ "not found" ]];then
+        download_command="wget"
+    else [[ ! $chk_wget =~ "not found" ]];then
+        echo -e "$erro Not found download tool.(curl or wget)"
+        echo -e "$info You can try to install it manually using the following command."
+        echo -e "$info $root_sudo$pkg_manage install wget -y"
+        echo -e "$info or"
+        echo -e "$info $root_sudo$pkg_manage install curl -y"
+        echo -e "$info and rerun this scirpt."
+        echo -e "$erro exit."
+    fi
 fi
 
 # install oh-my-zsh
