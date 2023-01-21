@@ -66,10 +66,36 @@ function install_dependencies(){
         echo -e "$info $root_sudo$pkg_manage install $i_depend -y"
         echo -e "$info and rerun this scirpt."
         echo -e "$erro exit."
+        exit 1
     else
         echo 0
     fi
 }
+chk_sudo=`chk_depend sudo`
+root_sudo="sudo "
+if [ ! $chk_sudo ] && [ ! $ROOT_CHK ];then
+    echo -e "$warn WARNING:"
+    echo -e "$warn The current environment does not have sudo installed and is not under the root user."
+    echo -e "$warn For security reasons we will try to install the sudo command once."
+    echo -e "$info + $pkg_manage install sudo -y"
+    `$pkg_manage install sudo -y`
+    if [ "$?" != "0" ];then
+        echo -e "$erro sudo install failed."
+        echo -e "$erro in due course the installation will not continue without permissions."
+        echo -e "$erro exit."
+        exit 1
+    else
+        echo -e "$info sudo install success."
+        echo -e "$info script continue."
+    fi
+fi
+
+for d in ${dependencies[@]};do
+    status_I_d=`chk_depend $d`
+    if [ ! $status_I_d ];then
+        `install_dependencies $d`
+    fi
+done
 
 # get sudo
 sudo pwd > /dev/null
