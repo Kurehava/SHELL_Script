@@ -166,6 +166,7 @@ if [ "$chk_curl" != "" ];then
     else
         download_command="None"
     fi
+fi
 
 if [ "$chk_wget" != "" ] && [ "$download_command" = "None" ];then
     if [[ ! $chk_wget =~ "not found" ]];then
