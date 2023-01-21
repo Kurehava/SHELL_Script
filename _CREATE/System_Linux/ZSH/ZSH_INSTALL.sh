@@ -1,4 +1,6 @@
 #!/bin/bash
+#powered by kurehava
+
 erro="[\033[91mERRO\033[0m]"
 info="[\033[92mINFO\033[0m]"
 warn="[\033[93mWARN\033[0m]"
