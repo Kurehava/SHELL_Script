@@ -9,6 +9,8 @@
   ```https://bitly.com/```
   
   为多个用户安装zsh可以切换到对应用户下再次执行本脚本
+  
+  为了安全起见，本脚本舍弃了原本直接进行多用户安装的功能
 
 # Sizuku_double_line.zsh-theme
 
