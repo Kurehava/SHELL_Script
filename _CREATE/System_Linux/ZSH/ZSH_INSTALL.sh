@@ -276,9 +276,9 @@ fi
 # change def shell
 echo -e "$info change sh to ZSH."
 if [ "$root_sudo" = "sudo " ];then
-    sudo -k chsh -s /bin/zsh "$USER"
+    sudo -k chsh -s /bin/zsh
 else
-    chsh -s /bin/zsh "$USER"
+    chsh -s /bin/zsh
 fi
 
 while :;do
@@ -290,7 +290,7 @@ while :;do
              echo -e "$info Please remember to manually reboot later."
              exit 0
              ;;
-        N|n) $(root_sudo)reboot
+        N|n) $("$root_sudo"reboot)
              if [ "$?" != "0" ];then
                 echo -e "$warn For unknown reasons, we cannot reboot the environment for you."
                 echo -e "$warn Please manually restart your environment later to apply the changes."
