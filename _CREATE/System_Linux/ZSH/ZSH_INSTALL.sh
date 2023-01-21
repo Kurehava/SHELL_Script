@@ -275,11 +275,14 @@ fi
 
 # change def shell
 echo -e "$info change sh to ZSH."
-if [ "$root_sudo" = "sudo " ];then
-    sudo -k chsh -s /bin/zsh
-else
-    chsh -s /bin/zsh
-fi
+chsh -s /bin/zsh "$(whoami)"
+
+# apply zsh to the root user
+while :;do
+    echo -e "$info Do you want to apply zsh to the root user?[Y/N]"
+    read select_zru
+    case $select_zru in
+        Y|y) 
 
 while :;do
     echo -e "$info Now we need root."
