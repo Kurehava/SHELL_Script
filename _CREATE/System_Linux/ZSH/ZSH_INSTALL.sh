@@ -92,11 +92,15 @@ if [ ! $chk_sudo ] && [ ! $ROOT_CHK ];then
 fi
 
 for d in ${dependencies[@]};do
+    echo -e "$info check $d ...\c"
     status_I_d=`chk_depend $d`
     if [ ! $status_I_d ];then
+        echo ""
         echo -e "$warn Missing dependency on $d."
         echo -e "$warn Start trying to install."
         `install_dependencies $d`
+    else
+        echo "yes"
     fi
 done
 
