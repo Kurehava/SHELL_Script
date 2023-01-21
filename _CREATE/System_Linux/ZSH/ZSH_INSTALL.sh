@@ -4,14 +4,16 @@
 erro="[\033[91mERRO\033[0m]"
 info="[\033[92mINFO\033[0m]"
 warn="[\033[93mWARN\033[0m]"
+dbug="[\033[95mDBUG\033[0m]"
 user_root="$(echo ~)"
 
 # check root
 if [ "$EUID" = "0" ];then
-    ROOT_CHK=0
+    ROOT_CHK=true
 else
-    ROOT_CHK=1
+    ROOT_CHK=false
 fi
+root_sudo="sudo "
 
 # chk system platform
 system_info=`uname -a`
@@ -46,16 +48,16 @@ dependencies=("sudo" "curl" "wget" "git")
 function chk_depend(){
     c_depend="$1"
     # Check if it is already installed
-    depend_check=$(which $depend)
-    echo "$warn get depend check info : $c_depend <$depend_check>"
+    depend_check=$(which $c_depend)
+    echo -e "$dbug get depend check info : $c_depend <$depend_check>"
     if [ "$depend_check" != "" ];then
         if [[ ! "$depend_check" =~ "not found" ]];then
-            status_I_d=0
+            status_c_d=true
         else
-            status_I_d=1
+            status_c_d=false
         fi
     else
-        status_I_d=1
+        status_c_d=false
     fi
 }
 
@@ -71,13 +73,12 @@ function install_dependencies(){
         echo -e "$erro exit."
         exit 1
     else
-        echo 0
+        status_I_d=true
     fi
 }
 
-chk_sudo=`chk_depend sudo`
-root_sudo="sudo "
-if [ ! $chk_sudo ] && [ ! $ROOT_CHK ];then
+chk_depend sudo
+if ! $status_c_d && ! $ROOT_CHK ;then
     echo -e "$warn WARNING:"
     echo -e "$warn The current environment does not have sudo installed and is not under the root user."
     echo -e "$warn For security reasons we will try to install the sudo command once."
@@ -95,13 +96,18 @@ if [ ! $chk_sudo ] && [ ! $ROOT_CHK ];then
 fi
 
 for d in ${dependencies[@]};do
-    `chk_depend $d`
+    chk_depend $d
+    echo -e "$dbug get chk depend return : status_c_d <$status_c_d>"
     echo -e "$info check $d ...\c"
-    if [ ! $status_I_d ];then
+    if [ ! $status_c_d ];then
         echo ""
         echo -e "$warn Missing dependency on $d."
         echo -e "$warn Start trying to install."
         `install_dependencies $d`
+        if $status_I_d;then
+            echo -e "$info $d install success."
+            echo -e "$info script continue."
+        fi
     else
         echo "yes"
     fi
@@ -202,20 +208,20 @@ mkdir "$incr_path"
 case $download_command in
     "wget") echo -e "$info DOWNLOAD Plugin: zsh-autosuggestions"
             wget "http://mimosa-pudica.net/src/incr-0.2.zsh" -P "$incr_path"
-            incr_install=1
+            incr_install=true
             ;;
     "curl") echo -e "$info DOWNLOAD Plugin: zsh-autosuggestions"
             curl -L "http://mimosa-pudica.net/src/incr-0.2.zsh" -o "$incr_path/incr-0.2.zsh"
-            incr_install=1
+            incr_install=true
             ;;
     *) echo -e "$warn Unknown download tool, skip the incr installation for safety reasons."
        echo -e "$warn You can do the manual installation later with the following command."
        echo -e "$warn + wget 'http://mimosa-pudica.net/src/incr-0.2.zsh' -P \"$incr_path\""
        echo -e "$warn + curl 'http://mimosa-pudica.net/src/incr-0.2.zsh' -o \"$incr_path/incr-0.2.zsh\""
-       incr_install=0
+       incr_install=false
        ;;
 esac
-if [ $incr_install = 1 ];then
+if $incr_install;then
     if [ -f "$incr_path/incr-0.2.zsh" ];then
         echo -e "source $incr_path/incr-0.2.zsh" >> "$user_root/.zshrc"
         echo -e "$info WRITE: source $incr_path/incr-0.2.zsh >> $user_root/.zshrc"
