@@ -47,14 +47,15 @@ function chk_depend(){
     c_depend="$1"
     # Check if it is already installed
     depend_check=$(which $depend)
+    echo "$warn get depend check info : $c_depend <$depend_check>"
     if [ "$depend_check" != "" ];then
         if [[ ! "$depend_check" =~ "not found" ]];then
-            echo 0
+            status_I_d=0
         else
-            echo 1
+            status_I_d=1
         fi
     else
-        echo 1
+        status_I_d=1
     fi
 }
 
@@ -94,8 +95,8 @@ if [ ! $chk_sudo ] && [ ! $ROOT_CHK ];then
 fi
 
 for d in ${dependencies[@]};do
+    `chk_depend $d`
     echo -e "$info check $d ...\c"
-    status_I_d=`chk_depend $d`
     if [ ! $status_I_d ];then
         echo ""
         echo -e "$warn Missing dependency on $d."
@@ -105,6 +106,8 @@ for d in ${dependencies[@]};do
         echo "yes"
     fi
 done
+
+exit 1
 
 # get sudo
 sudo pwd > /dev/null
