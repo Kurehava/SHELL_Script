@@ -64,7 +64,9 @@ function chk_depend(){
 function install_dependencies(){
     # depend
     i_depend="$1"
+    # echo "$root_sudo$pkg_manage install $i_depend -y"
     `$root_sudo$pkg_manage install $i_depend -y`
+    # read x
     if [ "$?" != "0" ];then
         echo -e "$erro Failed to install critical dependencies $i_depend."
         echo -e "$info You can try to install it manually using the following command."
@@ -93,6 +95,8 @@ if ! $status_c_d && ! $ROOT_CHK ;then
         echo -e "$info sudo install success."
         echo -e "$info script continue."
     fi
+elif $status_c_d;then
+    echo -e "$info Detected sudo dependency"
 fi
 
 for d in ${dependencies[@]};do
@@ -103,7 +107,7 @@ for d in ${dependencies[@]};do
         echo ""
         echo -e "$warn Missing dependency on $d."
         echo -e "$warn Start trying to install."
-        `install_dependencies $d`
+        install_dependencies $d
         if $status_I_d;then
             echo -e "$info $d install success."
             echo -e "$info script continue."
