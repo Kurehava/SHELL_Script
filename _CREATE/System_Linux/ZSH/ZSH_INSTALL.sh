@@ -273,11 +273,13 @@ fi
 
 # change def shell
 echo -e "$info change sh to ZSH."
-chsh -s /bin/zsh
+chsh -s /bin/zsh $(whoami)
 if [ "$?" != "0" ];then
     echo -e "$warn For unknown reasons, we cannot change zsh for you."
     echo -e "$warn Please manually change zsh later to apply the changes."
-    echo -e "$info $root_sudo chsh -s /bin/zsh \"$(whoami)\""
+    echo -e "$info $root_sudo chsh -s /bin/zsh $(whoami)"
+    echo -e "$info or"
+    echo -e "$info Open /etc/passwd and modify the shell of the specified user."
     echo -e "$warn script exit."
     exit 1
 fi
