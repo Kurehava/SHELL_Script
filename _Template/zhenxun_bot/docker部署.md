@@ -46,18 +46,22 @@
   
   2.右键左列Servers->Register->服务器
   
-  3.General->名称:任意名称，
+  3.General->
   
-  4.连接->主机名称/地址：ubuntu的ip，
+    名称:任意名称，
   
-  5.连接->端口：5432
+  4.连接->
+    
+    主机名称/地址：ubuntu的ip，
   
-  6.连接->维护数据库：zhenxun
+    端口：5432
   
-  7.连接->用户名：zhenxun
+    维护数据库：zhenxun
   
-  8.连接->保存密码
+    用户名：zhenxun
   
-  9.连接->密码：zxpassword
+    保存密码
+  
+    密码：zxpassword
   
   10.保存
