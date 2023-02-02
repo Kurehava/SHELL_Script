@@ -5,7 +5,9 @@
   2.用pgadmin4镜像创建容器pgadmin41(假设)
   
   3.编辑->高级设置->环境->新增
+  
     PATH:PGADMIN DEFAULT_EMAIL     VALUE:mail_add
+    
     PATH:PGADMIN DEFAULT PASSWORD  VALUE:passwd
   
   4.把443/80两个端口用本地端口转换
