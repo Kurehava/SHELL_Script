@@ -12,8 +12,8 @@ while :;do
     echo -e "$info Do you need github boost?[Y/N] \c"
     read ccb
     case $ccb in
-        Y|y) boost_flag=1;break;;
-        N|n) boost_flag=0;break;;
+        Y|y) boost_flag=1;boots_proxy="https://ghproxy.com/";break;;
+        N|n) boost_flag=0;boots_proxy="";break;;
         *) echo -e "$warn input $select is illegal, plz reinput."
     esac
 done
@@ -195,7 +195,8 @@ fi
 # install oh-my-zsh
 if [ ! -d "$user_root/.oh-my-zsh" ];then
     echo -e "$info Install: oh-my-zsh"
-    echo -e "N\n" | sh -c "$(wget https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)"
+    # echo -e "N\n" | sh -c "$(wget https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)"
+    echo -e "N\n" | sh -c "$(wget ${boots_proxy}https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)"
     # chk install success or fail
     if [ ! -e "$user_root/.oh-my-zsh" ];then
         echo -e "$erro Install oh-my-zsh is failed. exit."
@@ -211,7 +212,7 @@ omz_themes="$omz_home/themes"
 omz_plugins="$omz_home/plugins"
 
 # get kurehava zsh theme
-`$download_command "https://raw.githubusercontent.com/Kurehava/SHELL_Script/main/_CREATE/System_Linux/ZSH/Sizuku_double_line.zsh-theme" > "$omz_themes/kurehava_conda.zsh-theme"`
+`$download_command "${boots_proxy}https://raw.githubusercontent.com/Kurehava/SHELL_Script/main/_CREATE/System_Linux/ZSH/Sizuku_double_line.zsh-theme" > "$omz_themes/kurehava_conda.zsh-theme"`
 
 # change theme to kurehava conda theme
 $(sed -i s:robbyrussell:kurehava_conda:g "$user_root/.zshrc")
@@ -254,7 +255,7 @@ fi
 za_path="$omz_plugins/zsh-autosuggestions"
 echo -e "$info DOWNLOAD Plugin: zsh-autosuggestions"
 mkdir "$za_path"
-git clone https://github.com/zsh-users/zsh-autosuggestions.git "$za_path"
+git clone ${boost_proxy}https://github.com/zsh-users/zsh-autosuggestions.git "$za_path"
 if [ -f "$za_path/zsh-autosuggestions.zsh" ];then
     echo "source $za_path/zsh-autosuggestions.zsh" >> "$user_root/.zshrc"
     echo -e "$info WRITE: source $za_path/zsh-autosuggestions.zsh >> \"$user_root/.zshrc\""
@@ -269,7 +270,7 @@ fi
 zshl_path="$omz_plugins/zsh-syntax-highlighting"
 echo -e "$info DOWNLOAD Plugin: zsh-syntax-highlighting"
 mkdir "$zshl_path"
-git clone https://github.com/zsh-users/zsh-syntax-highlighting.git "$zshl_path"
+git clone ${boost_proxy}https://github.com/zsh-users/zsh-syntax-highlighting.git "$zshl_path"
 # echo "source $zshl_path/zsh-syntax-highlighting.zsh" >> "$user_root/.zshrc"
 if [ -f "$zshl_path/zsh-syntax-highlighting.zsh" ];then
     echo "source $zshl_path/zsh-syntax-highlighting.zsh" >> "$user_root/.zshrc"
