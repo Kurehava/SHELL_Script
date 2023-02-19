@@ -7,6 +7,17 @@ warn="[\033[93mWARN\033[0m]"
 dbug="[\033[95mDBUG\033[0m]"
 user_root="$(echo ~)"
 
+# check county boost
+while :;do
+    echo -e "$info Do you need github boost?[Y/N] \c"
+    read ccb
+    case $ccb in
+        Y|y) boost_flag=1;break;;
+        N|n) boost_flag=0;break;;
+        *) echo -e "$warn input $select is illegal, plz reinput."
+    esac
+done
+
 # check root
 if [ "$EUID" = "0" ];then
     ROOT_CHK=true
