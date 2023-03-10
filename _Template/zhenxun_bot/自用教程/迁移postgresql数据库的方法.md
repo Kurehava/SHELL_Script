@@ -9,6 +9,8 @@
   4.```\q``` 退出postgresql管理界面
   
   5.数据库操作命令不要忘记分号";"
+  
+  6.```sudo /etc/init.d/postgresql start```
 
 # 导出数据库
 
