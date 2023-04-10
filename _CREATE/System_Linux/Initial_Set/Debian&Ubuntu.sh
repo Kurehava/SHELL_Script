@@ -1,1 +1,1 @@
-apt install curl wget sudo neofetch net-tools apt-utils jq 
+apt install curl wget sudo neofetch net-tools apt-utils jq vim
