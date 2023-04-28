@@ -20,17 +20,17 @@ configure_prompt() {
     # Skull emoji for root terminal
     #[ "$EUID" -eq 0 ] && prompt_symbol=💀
     if [ "`whoami`" = "root" ];then
-        use_color="%F{%(#.red.red)}"
+        use_color="%F{red}"
     else
-        use_color="%F{%(#.green.green)}"
+        use_color="%F{green}"
     fi
     case "$PROMPT_ALTERNATIVE" in
         twoline)
             path_c="`pwd`"
-            yellow_c="%F{%(#.yellow.yellow)}"
-            red_c="%F{%(#.red.red)}"
-            cyan_c="%F{%(#.cyan.cyan)}"
-            write_c="%F{%(#.write.write)}"
+            yellow_c="%F{yellow}"
+            red_c="%F{red}"
+            cyan_c="%F{cyan}"
+            write_c="%F{write}"
             cp_fn
             # PROMPT=$'%F{%(#.blue.green)}┌──%{$fg[green]%}[%D{%H:%M:%S}]${debian_chroot:+($debian_chroot)─}${VIRTUAL_ENV:+($(basename $VIRTUAL_ENV))─}(%B%F{%(#.red.blue)}%n%F{%(#.red.red)}::%F{%(#.red.blue)}%m%b%F{%(#.blue.green)})-[%B%F{red}%(6~.%-1~/…/%4~.%5~)%b%F{%(#.blue.green)}]\n└─%B%(#.%F{red}#.%F{blue}$)%b%F{reset} '
             PROMPT=$'${yellow_c}[%D{%H:%M:%S}]\n${use_color}|-%d\n${use_color}|-%n${yellow_c}::${cyan_c}%C${yellow_c}::${use_color}# ${write_c}'
