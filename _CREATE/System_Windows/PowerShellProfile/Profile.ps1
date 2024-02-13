@@ -16,7 +16,7 @@ function prompt {
 Clear-Host
 
 function ll {
-  python "C:\Program Files\PowerShell\7\ls.py" $pwd $args
+  python "C:\Program Files\PowerShell\7\ls_b.py" $pwd $args
   return 
 }
 
